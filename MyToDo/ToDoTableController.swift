@@ -37,13 +37,13 @@ class ToDoTableController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoCell", for: indexPath) as! ToDoCell
         
         let item = items[indexPath.row]
-        cell.title.text = item.title
+        cell.titleField.text = item.title
         cell.doneLabel.isHidden = !item.done
         
 
         return cell
     }
-   
+    
 
     /*
     // Override to support conditional editing of the table view.
@@ -64,6 +64,11 @@ class ToDoTableController: UITableViewController {
         }    
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let sender = sender as? ToDoCell{
+            print(sender.titleField.text)
+        }
+    }
 
     /*
     // Override to support rearranging the table view.

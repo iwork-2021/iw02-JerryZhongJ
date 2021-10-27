@@ -9,8 +9,8 @@ import UIKit
 
 class ToDoCell: UITableViewCell {
 
+    @IBOutlet weak var titleField: UITextField!
     @IBOutlet weak var doneLabel: UILabel!
-    @IBOutlet weak var title: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -21,5 +21,13 @@ class ToDoCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
+    
+    @IBAction func beginEditing(_ sender: Any) {
+        self.accessoryType = AccessoryType.detailButton
+    }
+    
+    @IBAction func stopEditing(_ sender: Any) {
+        self.accessoryType = AccessoryType.none
+    }
+    
 }
