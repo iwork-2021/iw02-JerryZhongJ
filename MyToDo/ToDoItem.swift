@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ToDoItem: NSObject {
+struct ToDoItem {
     var title:String
     var done:Bool
     

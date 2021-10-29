@@ -10,7 +10,7 @@ import UIKit
 class ToDoCell: UITableViewCell {
 
     @IBOutlet weak var titleField: UITextField!
-    @IBOutlet weak var doneLabel: UILabel!
+    @IBOutlet weak var doneButton: UIButton!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

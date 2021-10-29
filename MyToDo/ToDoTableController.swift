@@ -36,15 +36,24 @@ class ToDoTableController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoCell", for: indexPath) as! ToDoCell
         
-        let item = items[indexPath.row]
-        cell.titleField.text = item.title
-        cell.doneLabel.isHidden = !item.done
-        
-
+        let row = indexPath.row
+        cell.titleField.text = items[row].title
+        cell.doneButton.titleLabel?.alpha = items[row].done ? 1.0:0.0
         return cell
     }
     
-
+    
+    @IBAction func addItem(_ sender: Any) {
+        addItem()
+    }
+    
+    func addItem(){
+        items.append(ToDoItem("", false))
+        let index = IndexPath(row:items.count-1, section:0)
+        tableView.insertRows(at: [index], with: .fade)
+        let cell = tableView.cellForRow(at: index) as! ToDoCell
+        cell.titleField.becomeFirstResponder()
+    }
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -69,7 +78,16 @@ class ToDoTableController: UITableViewController {
             print(sender.titleField.text)
         }
     }
-
+    @IBAction func switchDone(_ sender: UIButton) {
+        let cell = sender.superview!.superview as! UITableViewCell
+        guard let index = tableView.indexPath(for: cell) else {
+            return
+        }
+        let row = index.row
+        items[row].done = !items[row].done
+        sender.titleLabel?.alpha = items[row].done ? 1.0:0.0
+    }
+    
     /*
     // Override to support rearranging the table view.
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
@@ -94,5 +112,33 @@ class ToDoTableController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+
+}
+
+extension ToDoTableController: UITextFieldDelegate{
+//    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+//        print("begin editing")
+//        return true
+//    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        print("stop editing " + textField.text!)
+        let cell = textField.superview!.superview as! UITableViewCell
+        guard let index = tableView.indexPath(for: cell) else{
+            return
+        }
+        let text = textField.text!
+        if text.isEmpty {
+            items.remove(at: index.row)
+            tableView.deleteRows(at: [index], with: .fade)
+        }else{
+            items[index.row].title = textField.text!
+        }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        addItem()
+        return false
+    }
 
 }
