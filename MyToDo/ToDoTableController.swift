@@ -40,7 +40,11 @@ class ToDoTableController: UITableViewController {
         
         let row = indexPath.row
         cell.titleField.text = items[row].title
-        cell.doneButton.titleLabel?.alpha = items[row].done ? 1.0:0.0
+        if items[row].done {
+            cell.doneButton.setImage(UIImage(systemName: "circle.inset.filled"), for: .normal)
+        }else{
+            cell.doneButton.setImage(UIImage(systemName: "circle"), for: .normal)
+        }
         return cell
     }
     
@@ -82,6 +86,14 @@ class ToDoTableController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowDetail" {
             view.endEditing(true)
+            let navController = segue.destination as! UINavigationController
+            let detailController = navController.topViewController as! DetailTableController
+            guard let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell) else{
+                return
+            }
+            let row = indexPath.row
+            detailController.row = row
+            detailController.item = items[row]
         }
     }
     
@@ -90,6 +102,9 @@ class ToDoTableController: UITableViewController {
     }
     
     @IBAction func unwindWithDone(unwindSegue: UIStoryboardSegue){
+        let detailController = unwindSegue.source as! DetailTableController
+        let row = detailController.row
+        items[row] = detailController.item
         
     }
     
@@ -100,8 +115,15 @@ class ToDoTableController: UITableViewController {
         }
         let row = index.row
         items[row].done = !items[row].done
-        sender.titleLabel?.alpha = items[row].done ? 1.0:0.0
+        
+        if items[row].done {
+            sender.setImage(UIImage(systemName: "circle.inset.filled"), for: .normal)
+        }else{
+            sender.setImage(UIImage(systemName: "circle"), for: .normal)
+        }
+        
     }
+    
     
     /*
     // Override to support rearranging the table view.

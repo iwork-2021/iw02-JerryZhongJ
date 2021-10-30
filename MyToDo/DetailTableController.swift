@@ -9,25 +9,54 @@ import UIKit
 
 class DetailTableController: UITableViewController {
     
+    @IBOutlet weak var titleField: UITextField!
     @IBOutlet weak var datePickerCell: UITableViewCell!
     @IBOutlet weak var timePickerCell: UITableViewCell!
     
     @IBOutlet weak var timeSwitchCell: UITableViewCell!
     @IBOutlet weak var dateSwitchCell: UITableViewCell!
+    
+    @IBOutlet weak var dateSwitch: UISwitch!
+    @IBOutlet weak var timeSwitch: UISwitch!
+    
+    @IBOutlet weak var flagSwitch: UISwitch!
+    
+    var item: ToDoItem = ToDoItem()
+    var row: Int = 0
+    
     var showDatePicker: Bool = false{
         didSet{
-            if(showDatePicker){
+            switch(oldValue, showDatePicker){
+            case(false, true):
+                tableView.insertRows(at: [IndexPath(row: 1, section: 1)], with: .fade)
+            case (true, false):
+                tableView.deleteRows(at: [IndexPath(row: 1, section: 1)], with: .fade)
+            default:
+                break
+            }
+        }
+        willSet{
+            if(newValue == true){
                 showTimePicker = false
             }
-            tableView.reloadSections([1], with: .fade)
         }
     }
     var showTimePicker: Bool = false{
         didSet{
-            if(showTimePicker){
+            switch(oldValue, showTimePicker){
+            case(false, true):
+                tableView.insertRows(at: [IndexPath(row: 2, section: 1)], with: .fade)
+            case (true, false):
+                tableView.deleteRows(at: [IndexPath(row: 2, section: 1)], with: .fade)
+            default:
+                break
+            }
+        }
+        
+        willSet{
+            if(newValue == true){
                 showDatePicker = false
             }
-            tableView.reloadSections([1], with: .fade)
         }
     }
     var rowInSection1: Int{
@@ -37,7 +66,8 @@ class DetailTableController: UITableViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        titleField.text = item.title
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -49,7 +79,7 @@ class DetailTableController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 2
+        return 3
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -65,32 +95,103 @@ class DetailTableController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch(indexPath.section){
-        case 1:
-            switch(indexPath.row){
-            case 0:
-                return dateSwitchCell
-            case 1:
-                if showDatePicker{
-                    return datePickerCell
-                }else{
-                    return timeSwitchCell
-                }
-            case 2:
-                if(showTimePicker){
-                    return timePickerCell
-                }else{
-                    return timeSwitchCell
-                }
-            default:
-                return UITableViewCell()
-            }
+        switch((indexPath.section, indexPath.row, showDatePicker, showTimePicker)){
+        case (1, 0, _, _):
+            return dateSwitchCell
+            
+        case (1, 1, false, _):
+            return timeSwitchCell
+            
+        case (1, 1, true, _):
+            return datePickerCell
+            
+        case (1, 2, _, false):
+            return timeSwitchCell
+        
+        case (1, 2, _, true):
+            return timePickerCell
+            
         default:
             return super.tableView(tableView, cellForRowAt: indexPath)
         }
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        tableView.beginUpdates()
+        switch(indexPath){
+        case tableView.indexPath(for: dateSwitchCell):
+            if(dateSwitch.isOn){
+                showDatePicker = !showDatePicker
+            }
+            
+        case tableView.indexPath(for: timeSwitchCell):
+            if(timeSwitch.isOn){
+                showTimePicker = !showTimePicker
+            }
+            
+        default:
+            break
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
+//        tableView.endUpdates()
+    }
+    
+    // common job when switch's status changed, manually or progromatically
+    
+    var dateSwitchIsOn: Bool{
+        get{
+            return dateSwitch.isOn
+        }
+        set{
+            if(newValue){
+                dateSwitch.setOn(true, animated: true)
+                dateSwitchCell.selectionStyle = .gray
+                showDatePicker = true
+                // TODO: make item's date available
+            }else{
+                showDatePicker = false
+                timeSwitchIsOn = false
+                dateSwitch.setOn(false, animated: true)
+                dateSwitchCell.selectionStyle = .none
+                // TODO: disable item's date
+            }
+        }
+    }
+    
+    var timeSwitchIsOn: Bool{
+        get{
+            return timeSwitch.isOn
+        }
+        set{
+            if(newValue){
+                dateSwitchIsOn = true
+                timeSwitch.setOn(true, animated: true)
+                timeSwitchCell.selectionStyle = .gray
+                showTimePicker = true
+                // TODO: make item's time available
+            }else{
+                showTimePicker = false
+                timeSwitch.setOn(false, animated: true)
+                timeSwitchCell.selectionStyle = .none
+                // TODO: disable item's time
+            }
 
+        }
+    }
+    
+    // manually change the switch's status
+    @IBAction func dateSwitch(_ sender: UISwitch) {
+//        tableView.beginUpdates()
+        dateSwitchIsOn = sender.isOn
+//        tableView.endUpdates()
+    }
+    
+    @IBAction func timeSwitch(_ sender: UISwitch) {
+//        tableView.beginUpdates()
+        timeSwitchIsOn = sender.isOn;
+//        tableView.endUpdates()
+    }
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

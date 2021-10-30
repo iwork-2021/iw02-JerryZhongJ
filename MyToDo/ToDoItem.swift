@@ -11,6 +11,10 @@ struct ToDoItem {
     var title:String
     var done:Bool
     
+    init(){
+        self.title = ""
+        self.done = false
+    }
     init(_ title:String,_ done:Bool){
         self.title = title
         self.done = done
