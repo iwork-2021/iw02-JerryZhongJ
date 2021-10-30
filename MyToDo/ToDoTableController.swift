@@ -13,6 +13,8 @@ class ToDoTableController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.endEditing))
+        self.view.addGestureRecognizer(tapGesture)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -54,6 +56,10 @@ class ToDoTableController: UITableViewController {
         let cell = tableView.cellForRow(at: index) as! ToDoCell
         cell.titleField.becomeFirstResponder()
     }
+    
+    @objc func endEditing(){
+        view.endEditing(true)
+    }
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -74,10 +80,19 @@ class ToDoTableController: UITableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let sender = sender as? ToDoCell{
-            print(sender.titleField.text)
+        if segue.identifier == "ShowDetail" {
+            view.endEditing(true)
         }
     }
+    
+    @IBAction func unwindWithCancel(unwindSegue: UIStoryboardSegue){
+        
+    }
+    
+    @IBAction func unwindWithDone(unwindSegue: UIStoryboardSegue){
+        
+    }
+    
     @IBAction func switchDone(_ sender: UIButton) {
         let cell = sender.superview!.superview as! UITableViewCell
         guard let index = tableView.indexPath(for: cell) else {
