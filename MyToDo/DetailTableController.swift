@@ -19,6 +19,8 @@ class DetailTableController: UITableViewController {
     @IBOutlet weak var dateSwitch: UISwitch!
     @IBOutlet weak var timeSwitch: UISwitch!
     
+    @IBOutlet weak var datePicker: UIDatePicker!
+    @IBOutlet weak var timePicker: UIDatePicker!
     @IBOutlet weak var flagSwitch: UISwitch!
     
     var item: ToDoItem = ToDoItem()
@@ -64,10 +66,24 @@ class DetailTableController: UITableViewController {
             return showDatePicker || showTimePicker ? 3:2
         }
     }
+    
+    let dateFormatter = DateFormatter()
+    let timeFormatter = DateFormatter()
+    let calendar = Calendar.current
     override func viewDidLoad() {
         super.viewDidLoad()
         
         titleField.text = item.title
+        
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .none
+        dateFormatter.locale = Locale(identifier: "zh-CN")
+        
+        timeFormatter.dateStyle = .none
+        timeFormatter.timeStyle = .medium
+        timeFormatter.locale = Locale(identifier: "zh-CN")
+        
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -136,8 +152,6 @@ class DetailTableController: UITableViewController {
 //        tableView.endUpdates()
     }
     
-    // common job when switch's status changed, manually or progromatically
-    
     var dateSwitchIsOn: Bool{
         get{
             return dateSwitch.isOn
@@ -191,6 +205,28 @@ class DetailTableController: UITableViewController {
         timeSwitchIsOn = sender.isOn;
 //        tableView.endUpdates()
     }
+    var date: Date{
+        get{
+            return calendar.startOfDay(for: Date(timeIntervalSinceReferenceDate: item.datetime))
+        }
+        set{
+            item.datetime
+        }
+    }
+    var time: Date{
+        get
+    }
+    @IBAction func datePick(_ sender: UIDatePicker) {
+        print("pick date: " + sender.date.formatted())
+    }
+    
+    @IBAction func timePick(_ sender: UIDatePicker) {
+        print("pick time: " + sender.date.formatted())
+    }
+    
+    
+    
+    
     
     /*
     // Override to support conditional editing of the table view.
@@ -238,3 +274,5 @@ class DetailTableController: UITableViewController {
     */
 
 }
+
+

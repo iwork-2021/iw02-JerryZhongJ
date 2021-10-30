@@ -17,6 +17,7 @@
 		7C4DA9B627292B9C00724707 /* ToDoTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4DA9B527292B9C00724707 /* ToDoTableController.swift */; };
 		7C4DA9BA2729340D00724707 /* ToDoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4DA9B92729340D00724707 /* ToDoItem.swift */; };
 		7C4DA9BC2729453C00724707 /* ItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4DA9BB2729453C00724707 /* ItemController.swift */; };
+		7CD74529272D7B2D00AE30D7 /* ToDoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD74528272D7B2D00AE30D7 /* ToDoList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		7C4DA9B527292B9C00724707 /* ToDoTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoTableController.swift; sourceTree = "<group>"; };
 		7C4DA9B92729340D00724707 /* ToDoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItem.swift; sourceTree = "<group>"; };
 		7C4DA9BB2729453C00724707 /* ItemController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemController.swift; sourceTree = "<group>"; };
+		7CD74528272D7B2D00AE30D7 /* ToDoList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 				7C27082C272D046900E7E2F6 /* DetailTableController.swift */,
 				7C4DA9BB2729453C00724707 /* ItemController.swift */,
 				7C4DA9B92729340D00724707 /* ToDoItem.swift */,
+				7CD74528272D7B2D00AE30D7 /* ToDoList.swift */,
 				7C4DA9A82729243F00724707 /* Assets.xcassets */,
 				7C4DA9AA2729243F00724707 /* LaunchScreen.storyboard */,
 				7C4DA9AD2729243F00724707 /* Info.plist */,
@@ -153,6 +156,7 @@
 				7C4DA9B427292B5900724707 /* ToDoCell.swift in Sources */,
 				7C4DA9BC2729453C00724707 /* ItemController.swift in Sources */,
 				7C27082D272D046900E7E2F6 /* DetailTableController.swift in Sources */,
+				7CD74529272D7B2D00AE30D7 /* ToDoList.swift in Sources */,
 				7C4DA9A02729243D00724707 /* AppDelegate.swift in Sources */,
 				7C4DA9BA2729340D00724707 /* ToDoItem.swift in Sources */,
 				7C4DA9A22729243D00724707 /* SceneDelegate.swift in Sources */,

@@ -201,6 +201,9 @@
                                             <subviews>
                                                 <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="inline" translatesAutoresizingMaskIntoConstraints="NO" id="IHa-3z-SAT">
                                                     <rect key="frame" x="20" y="11" width="334" height="323"/>
+                                                    <connections>
+                                                        <action selector="datePick:" destination="GIO-Fk-2bj" eventType="valueChanged" id="2pm-HK-54y"/>
+                                                    </connections>
                                                 </datePicker>
                                             </subviews>
                                             <constraints>
@@ -248,8 +251,11 @@
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="238.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" style="wheels" translatesAutoresizingMaskIntoConstraints="NO" id="SIo-Jg-MLT">
+                                                <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="5" style="wheels" translatesAutoresizingMaskIntoConstraints="NO" id="SIo-Jg-MLT">
                                                     <rect key="frame" x="20" y="11" width="334" height="216.5"/>
+                                                    <connections>
+                                                        <action selector="timePick:" destination="GIO-Fk-2bj" eventType="valueChanged" id="LRO-ea-YGI"/>
+                                                    </connections>
                                                 </datePicker>
                                             </subviews>
                                             <constraints>
@@ -314,10 +320,12 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="datePicker" destination="IHa-3z-SAT" id="DVV-PM-Hxn"/>
                         <outlet property="datePickerCell" destination="ZL1-qI-sqH" id="VVr-jL-tLG"/>
                         <outlet property="dateSwitch" destination="6yt-m6-r9a" id="PHN-In-ncq"/>
                         <outlet property="dateSwitchCell" destination="10T-pg-m1L" id="Cs1-wA-FSe"/>
                         <outlet property="flagSwitch" destination="1f0-Lq-RfD" id="PYh-dU-24G"/>
+                        <outlet property="timePicker" destination="SIo-Jg-MLT" id="faE-YW-uKM"/>
                         <outlet property="timePickerCell" destination="sbi-Pq-cT3" id="u6K-Vq-0V5"/>
                         <outlet property="timeSwitch" destination="y08-OK-dcq" id="6zO-Lk-Vxk"/>
                         <outlet property="timeSwitchCell" destination="vbY-t8-IbK" id="p9y-Ub-Rf5"/>
