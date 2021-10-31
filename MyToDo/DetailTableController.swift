@@ -23,6 +23,11 @@ class DetailTableController: UITableViewController {
     @IBOutlet weak var timePicker: UIDatePicker!
     @IBOutlet weak var flagSwitch: UISwitch!
     
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var timeLabel: UILabel!
+    
+    @IBOutlet weak var doneButton: UIBarButtonItem!
+    
     var item: ToDoItem = ToDoItem()
     var row: Int = 0
     
@@ -69,7 +74,7 @@ class DetailTableController: UITableViewController {
     
     let dateFormatter = DateFormatter()
     let timeFormatter = DateFormatter()
-    let calendar = Calendar.current
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -77,11 +82,18 @@ class DetailTableController: UITableViewController {
         
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .none
+        dateFormatter.doesRelativeDateFormatting = true
         dateFormatter.locale = Locale(identifier: "zh-CN")
         
         timeFormatter.dateStyle = .none
-        timeFormatter.timeStyle = .medium
+        timeFormatter.timeStyle = .short
+        timeFormatter.doesRelativeDateFormatting = true
         timeFormatter.locale = Locale(identifier: "zh-CN")
+        
+        // trigger actions
+        datetime = item.datetime
+        setDate = item.setDate
+        setTime = item.setTime
         
         
         // Uncomment the following line to preserve selection between presentations
@@ -152,42 +164,48 @@ class DetailTableController: UITableViewController {
 //        tableView.endUpdates()
     }
     
-    var dateSwitchIsOn: Bool{
+    var setDate: Bool{
         get{
-            return dateSwitch.isOn
+            return item.setDate
         }
         set{
             if(newValue){
                 dateSwitch.setOn(true, animated: true)
                 dateSwitchCell.selectionStyle = .gray
-                showDatePicker = true
-                // TODO: make item's date available
+                
+                item.setDate = true
+                dateLabel.isHidden = false
             }else{
                 showDatePicker = false
-                timeSwitchIsOn = false
+                setTime = false
                 dateSwitch.setOn(false, animated: true)
                 dateSwitchCell.selectionStyle = .none
-                // TODO: disable item's date
+                
+                item.setDate = false
+                dateLabel.isHidden = true
             }
         }
     }
     
-    var timeSwitchIsOn: Bool{
+    var setTime: Bool{
         get{
-            return timeSwitch.isOn
+            return item.setTime
         }
         set{
             if(newValue){
-                dateSwitchIsOn = true
+                setDate = true
                 timeSwitch.setOn(true, animated: true)
                 timeSwitchCell.selectionStyle = .gray
-                showTimePicker = true
-                // TODO: make item's time available
+                
+                item.setTime = true
+                timeLabel.isHidden = false
             }else{
                 showTimePicker = false
                 timeSwitch.setOn(false, animated: true)
                 timeSwitchCell.selectionStyle = .none
-                // TODO: disable item's time
+                
+                item.setTime = false
+                timeLabel.isHidden = true
             }
 
         }
@@ -195,38 +213,45 @@ class DetailTableController: UITableViewController {
     
     // manually change the switch's status
     @IBAction func dateSwitch(_ sender: UISwitch) {
-//        tableView.beginUpdates()
-        dateSwitchIsOn = sender.isOn
-//        tableView.endUpdates()
+        setDate = sender.isOn
+        if(sender.isOn){
+            showDatePicker = true
+        }
     }
     
     @IBAction func timeSwitch(_ sender: UISwitch) {
-//        tableView.beginUpdates()
-        timeSwitchIsOn = sender.isOn;
-//        tableView.endUpdates()
+        setTime = sender.isOn;
+        if(sender.isOn){
+            showTimePicker = true
+        }
+        
     }
-    var date: Date{
+    
+    var datetime: Date{
         get{
-            return calendar.startOfDay(for: Date(timeIntervalSinceReferenceDate: item.datetime))
+            return item.datetime
         }
         set{
-            item.datetime
+            item.datetime = newValue
+            datePicker.date = newValue
+            timePicker.date = newValue
+        
+            dateLabel.text = dateFormatter.string(from: newValue)
+            timeLabel.text = timeFormatter.string(from: newValue)
         }
     }
-    var time: Date{
-        get
-    }
+    
     @IBAction func datePick(_ sender: UIDatePicker) {
-        print("pick date: " + sender.date.formatted())
+        datetime = sender.date
     }
     
-    @IBAction func timePick(_ sender: UIDatePicker) {
-        print("pick time: " + sender.date.formatted())
+    @IBAction func flagSwitch(_ sender: UISwitch) {
+        item.flag = sender.isOn
     }
     
-    
-    
-    
+    @objc func endEditing(){
+        view.endEditing(true)
+    }
     
     /*
     // Override to support conditional editing of the table view.
@@ -273,6 +298,28 @@ class DetailTableController: UITableViewController {
     }
     */
 
+    
 }
 
-
+extension DetailTableController: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        let text = textField.text!
+        switch(textField.tag){
+        case 0:
+            item.title = text
+            
+        case 1:
+            item.note = text
+            
+        case 2:
+            item.url = text
+            
+        default:
+            break
+        }
+    }
+    
+    @IBAction func titleChanged(_ sender: UITextField) {
+        doneButton.isEnabled = !sender.text!.trimmingCharacters(in: .whitespaces).isEmpty
+    }
+}

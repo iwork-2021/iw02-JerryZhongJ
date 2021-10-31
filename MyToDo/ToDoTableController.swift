@@ -103,8 +103,11 @@ class ToDoTableController: UITableViewController {
     
     @IBAction func unwindWithDone(unwindSegue: UIStoryboardSegue){
         let detailController = unwindSegue.source as! DetailTableController
+        detailController.endEditing()
         let row = detailController.row
         items[row] = detailController.item
+        
+        tableView.reloadRows(at: [IndexPath(row: row, section: 0)], with: .fade)
         
     }
     
@@ -153,10 +156,7 @@ class ToDoTableController: UITableViewController {
 }
 
 extension ToDoTableController: UITextFieldDelegate{
-//    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-//        print("begin editing")
-//        return true
-//    }
+
     func textFieldDidEndEditing(_ textField: UITextField) {
         
         print("stop editing " + textField.text!)
@@ -165,7 +165,7 @@ extension ToDoTableController: UITextFieldDelegate{
             return
         }
         let text = textField.text!
-        if text.isEmpty {
+        if text.trimmingCharacters(in: .whitespaces).isEmpty {
             items.remove(at: index.row)
             tableView.deleteRows(at: [index], with: .fade)
         }else{

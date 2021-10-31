@@ -16,7 +16,6 @@
 		7C4DA9B427292B5900724707 /* ToDoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4DA9B327292B5900724707 /* ToDoCell.swift */; };
 		7C4DA9B627292B9C00724707 /* ToDoTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4DA9B527292B9C00724707 /* ToDoTableController.swift */; };
 		7C4DA9BA2729340D00724707 /* ToDoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4DA9B92729340D00724707 /* ToDoItem.swift */; };
-		7C4DA9BC2729453C00724707 /* ItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4DA9BB2729453C00724707 /* ItemController.swift */; };
 		7CD74529272D7B2D00AE30D7 /* ToDoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD74528272D7B2D00AE30D7 /* ToDoList.swift */; };
 /* End PBXBuildFile section */
 
@@ -32,7 +31,6 @@
 		7C4DA9B327292B5900724707 /* ToDoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoCell.swift; sourceTree = "<group>"; };
 		7C4DA9B527292B9C00724707 /* ToDoTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoTableController.swift; sourceTree = "<group>"; };
 		7C4DA9B92729340D00724707 /* ToDoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItem.swift; sourceTree = "<group>"; };
-		7C4DA9BB2729453C00724707 /* ItemController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemController.swift; sourceTree = "<group>"; };
 		7CD74528272D7B2D00AE30D7 /* ToDoList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -72,7 +70,6 @@
 				7C4DA9B527292B9C00724707 /* ToDoTableController.swift */,
 				7C4DA9A52729243D00724707 /* Main.storyboard */,
 				7C27082C272D046900E7E2F6 /* DetailTableController.swift */,
-				7C4DA9BB2729453C00724707 /* ItemController.swift */,
 				7C4DA9B92729340D00724707 /* ToDoItem.swift */,
 				7CD74528272D7B2D00AE30D7 /* ToDoList.swift */,
 				7C4DA9A82729243F00724707 /* Assets.xcassets */,
@@ -154,7 +151,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C4DA9B427292B5900724707 /* ToDoCell.swift in Sources */,
-				7C4DA9BC2729453C00724707 /* ItemController.swift in Sources */,
 				7C27082D272D046900E7E2F6 /* DetailTableController.swift in Sources */,
 				7CD74529272D7B2D00AE30D7 /* ToDoList.swift in Sources */,
 				7C4DA9A02729243D00724707 /* AppDelegate.swift in Sources */,
