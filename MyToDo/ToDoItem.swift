@@ -5,8 +5,8 @@
 //  Created by nju on 2021/10/27.
 //
 import Foundation
-struct ToDoItem {
-    var title:String = "新建提醒事项"
+struct ToDoItem: Codable{
+    var title:String = ""
     var done:Bool = false
     var note: String = ""
     var url: String = ""

@@ -9,12 +9,19 @@ import UIKit
 
 class ToDoTableController: UITableViewController {
     
-    var items = [ToDoItem("Hello World", true), ToDoItem("Finish iOS Assignment", false)]
+    var items: [ToDoItem] = []
+    
+    let datetimeFormatter: DateFormatter = DateFormatter()
     override func viewDidLoad() {
         super.viewDidLoad()
+
         
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.endEditing))
-        self.view.addGestureRecognizer(tapGesture)
+        loadItems()
+        
+        datetimeFormatter.doesRelativeDateFormatting = true
+        datetimeFormatter.locale = Locale(identifier: "zh-CN")
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.endEditing))
+//        self.view.addGestureRecognizer(tapGesture)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -38,13 +45,20 @@ class ToDoTableController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoCell", for: indexPath) as! ToDoCell
         
-        let row = indexPath.row
-        cell.titleField.text = items[row].title
-        if items[row].done {
+        let item = items[indexPath.row]
+        cell.titleField.text = item.title
+        if item.done {
             cell.doneButton.setImage(UIImage(systemName: "circle.inset.filled"), for: .normal)
         }else{
             cell.doneButton.setImage(UIImage(systemName: "circle"), for: .normal)
         }
+        
+        datetimeFormatter.dateStyle = item.setDate ? .medium : .none
+        datetimeFormatter.timeStyle = item.setTime ? .short : .none
+        cell.datetimeLabel.text = datetimeFormatter.string(from: item.datetime)
+        cell.datetimeLabel.isHidden = !item.setDate
+        
+        cell.flagImage.isHidden = !item.flag
         return cell
     }
     
@@ -54,16 +68,17 @@ class ToDoTableController: UITableViewController {
     }
     
     func addItem(){
-        items.append(ToDoItem("", false))
+        items.append(ToDoItem())
         let index = IndexPath(row:items.count-1, section:0)
         tableView.insertRows(at: [index], with: .fade)
         let cell = tableView.cellForRow(at: index) as! ToDoCell
+        cell.titleField.text = ""
         cell.titleField.becomeFirstResponder()
     }
     
-    @objc func endEditing(){
-        view.endEditing(true)
-    }
+//    @objc func endEditing(){
+//        view.endEditing(true)
+//    }
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -85,25 +100,30 @@ class ToDoTableController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowDetail" {
+            guard let cell = sender as? ToDoCell, let indexPath = tableView.indexPath(for: cell) else{
+                return
+            }
+            if(cell.titleField.text!.trimmingCharacters(in: .whitespaces).isEmpty){
+                cell.titleField.text = "新建提醒事项"
+            }
             view.endEditing(true)
             let navController = segue.destination as! UINavigationController
             let detailController = navController.topViewController as! DetailTableController
-            guard let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell) else{
-                return
-            }
+            
             let row = indexPath.row
             detailController.row = row
             detailController.item = items[row]
         }
     }
     
+    // unwind
     @IBAction func unwindWithCancel(unwindSegue: UIStoryboardSegue){
         
     }
     
     @IBAction func unwindWithDone(unwindSegue: UIStoryboardSegue){
         let detailController = unwindSegue.source as! DetailTableController
-        detailController.endEditing()
+        detailController.view.endEditing(true)
         let row = detailController.row
         items[row] = detailController.item
         
@@ -112,8 +132,8 @@ class ToDoTableController: UITableViewController {
     }
     
     @IBAction func switchDone(_ sender: UIButton) {
-        let cell = sender.superview!.superview as! UITableViewCell
-        guard let index = tableView.indexPath(for: cell) else {
+        
+        guard let cell = getCell(forButton: sender), let index = tableView.indexPath(for: cell) else {
             return
         }
         let row = index.row
@@ -127,49 +147,58 @@ class ToDoTableController: UITableViewController {
         
     }
     
+    func getCell(forButton button: UIButton) -> UITableViewCell?{
+        return button.superview?.superview?.superview as? UITableViewCell
+    }
     
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
+    func getCell(forTextField textField: UITextField) -> UITableViewCell?{
+        return textField.superview?.superview?.superview?.superview as? UITableViewCell
     }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
+   
+    func dataPath()->URL{
+        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("ToDoList.json")
     }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    func saveItems(){
+        view.endEditing(true)
+        do{
+            let data = try JSONEncoder().encode(items)
+            try data.write(to: dataPath(), options: .atomic)
+        }catch{
+            print("Can not save: \(error.localizedDescription)")
+        }
     }
-    */
+    
+    func loadItems(){
+        if let data = try? Data(contentsOf: dataPath()){
+            do {
+                items = try JSONDecoder().decode([ToDoItem].self, from: data)
+            }catch{
+                print("Can not decode \(error.localizedDescription)")
+            }
+        }
+    }
 
+  
+    
 }
 
 extension ToDoTableController: UITextFieldDelegate{
 
     func textFieldDidEndEditing(_ textField: UITextField) {
         
-        print("stop editing " + textField.text!)
-        let cell = textField.superview!.superview as! UITableViewCell
-        guard let index = tableView.indexPath(for: cell) else{
+//        print("stop editing " + textField.text!)
+        
+        guard let cell = getCell(forTextField: textField), let index = tableView.indexPath(for: cell) else{
             return
         }
         let text = textField.text!
+        
         if text.trimmingCharacters(in: .whitespaces).isEmpty {
             items.remove(at: index.row)
             tableView.deleteRows(at: [index], with: .fade)
         }else{
-            items[index.row].title = textField.text!
+            items[index.row].title = text
         }
     }
     

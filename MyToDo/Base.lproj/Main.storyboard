@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,48 +18,72 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ToDoCell" id="ary-fY-PWI" customClass="ToDoCell" customModule="MyToDo" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="44.5" width="414" height="44.5"/>
+                                <rect key="frame" x="0.0" y="44.5" width="414" height="59"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ary-fY-PWI" id="zxJ-38-Gr5">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="44.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="59"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2rB-R1-XWR">
-                                            <rect key="frame" x="0.0" y="0.0" width="44.5" height="44.5"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" secondItem="2rB-R1-XWR" secondAttribute="height" multiplier="1:1" id="P28-0a-46d"/>
-                                            </constraints>
-                                            <state key="normal" title="Button"/>
-                                            <buttonConfiguration key="configuration" style="plain" image="circle" catalog="system">
-                                                <color key="baseForegroundColor" systemColor="systemBlueColor"/>
-                                            </buttonConfiguration>
-                                            <connections>
-                                                <action selector="switchDone:" destination="cWb-0u-nVe" eventType="touchUpInside" id="xXh-t8-nFE"/>
-                                            </connections>
-                                        </button>
-                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Hello World" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eQm-3z-Kw1">
-                                            <rect key="frame" x="44.5" y="0.0" width="349.5" height="44.5"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                            <textInputTraits key="textInputTraits"/>
-                                            <connections>
-                                                <action selector="beginEditing:" destination="ary-fY-PWI" eventType="editingDidBegin" id="BCY-WF-znQ"/>
-                                                <action selector="stopEditing:" destination="ary-fY-PWI" eventType="editingDidEnd" id="yMG-UH-bd9"/>
-                                                <outlet property="delegate" destination="cWb-0u-nVe" id="gVG-oc-czS"/>
-                                            </connections>
-                                        </textField>
+                                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="3PZ-tr-7Yx">
+                                            <rect key="frame" x="20" y="5" width="389" height="43"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2rB-R1-XWR">
+                                                    <rect key="frame" x="0.0" y="6" width="31" height="31"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="31" id="a7L-IC-1kz"/>
+                                                        <constraint firstAttribute="height" constant="31" id="uep-t6-gdc"/>
+                                                    </constraints>
+                                                    <state key="normal" title="Button"/>
+                                                    <buttonConfiguration key="configuration" style="plain" image="circle" catalog="system">
+                                                        <color key="baseForegroundColor" systemColor="systemBlueColor"/>
+                                                    </buttonConfiguration>
+                                                    <connections>
+                                                        <action selector="switchDone:" destination="cWb-0u-nVe" eventType="touchUpInside" id="xXh-t8-nFE"/>
+                                                    </connections>
+                                                </button>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="W9l-uS-VLM">
+                                                    <rect key="frame" x="36" y="0.5" width="328" height="42.5"/>
+                                                    <subviews>
+                                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" text="Hello World " textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eQm-3z-Kw1">
+                                                            <rect key="frame" x="0.0" y="0.0" width="328" height="29"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                                            <textInputTraits key="textInputTraits"/>
+                                                            <connections>
+                                                                <action selector="beginEditing:" destination="ary-fY-PWI" eventType="editingDidBegin" id="BCY-WF-znQ"/>
+                                                                <action selector="stopEditing:" destination="ary-fY-PWI" eventType="editingDidEnd" id="yMG-UH-bd9"/>
+                                                                <outlet property="delegate" destination="cWb-0u-nVe" id="gVG-oc-czS"/>
+                                                            </connections>
+                                                        </textField>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v0H-B0-jmf">
+                                                            <rect key="frame" x="0.0" y="29" width="328" height="13.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                            <color key="textColor" systemColor="systemGrayColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="flag.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="vL6-sz-xOr">
+                                                    <rect key="frame" x="369" y="12" width="20" height="18.5"/>
+                                                    <color key="tintColor" systemColor="systemOrangeColor"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="20" id="agg-Ua-ck8"/>
+                                                        <constraint firstAttribute="height" constant="20" id="bVg-XW-NAT"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
+                                        </stackView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="eQm-3z-Kw1" firstAttribute="top" secondItem="zxJ-38-Gr5" secondAttribute="top" id="017-5t-grT"/>
-                                        <constraint firstAttribute="bottom" secondItem="2rB-R1-XWR" secondAttribute="bottom" id="9a6-cd-ynB"/>
-                                        <constraint firstAttribute="bottom" secondItem="eQm-3z-Kw1" secondAttribute="bottom" id="Oam-if-VEx"/>
-                                        <constraint firstItem="2rB-R1-XWR" firstAttribute="top" secondItem="zxJ-38-Gr5" secondAttribute="top" id="RVE-bl-11y"/>
-                                        <constraint firstItem="eQm-3z-Kw1" firstAttribute="leading" secondItem="2rB-R1-XWR" secondAttribute="trailing" id="V5D-Yn-jMc"/>
-                                        <constraint firstItem="2rB-R1-XWR" firstAttribute="leading" secondItem="zxJ-38-Gr5" secondAttribute="leading" id="chu-7p-Iyn"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="eQm-3z-Kw1" secondAttribute="trailing" id="hXg-dA-0HI"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="3PZ-tr-7Yx" secondAttribute="bottom" id="IYd-dk-qJA"/>
+                                        <constraint firstAttribute="trailing" secondItem="3PZ-tr-7Yx" secondAttribute="trailing" constant="5" id="aM9-98-Te1"/>
+                                        <constraint firstItem="3PZ-tr-7Yx" firstAttribute="top" secondItem="zxJ-38-Gr5" secondAttribute="top" constant="5" id="hem-hM-NdJ"/>
+                                        <constraint firstItem="3PZ-tr-7Yx" firstAttribute="leading" secondItem="zxJ-38-Gr5" secondAttribute="leadingMargin" id="zCn-w3-gqi"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="datetimeLabel" destination="v0H-B0-jmf" id="RJ9-aO-16C"/>
                                     <outlet property="doneButton" destination="2rB-R1-XWR" id="UMe-gA-waZ"/>
+                                    <outlet property="flagImage" destination="vL6-sz-xOr" id="u6T-Uv-RpJ"/>
                                     <outlet property="titleField" destination="eQm-3z-Kw1" id="VaU-Id-0OW"/>
                                     <segue destination="kLN-7q-ojX" kind="popoverPresentation" identifier="ShowDetail" trigger="accessoryAction" popoverAnchorView="4Bp-df-TNM" id="OOk-ut-vqA">
                                         <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
@@ -72,9 +97,10 @@
                         </connections>
                     </tableView>
                     <toolbarItems>
-                        <barButtonItem title="新建提醒事项" image="plus.circle" catalog="system" id="RAc-Xd-cod">
+                        <barButtonItem title="新提醒事项" id="NRW-VT-oph">
+                            <imageReference key="image" image="plus.circle" catalog="system" symbolScale="large"/>
                             <connections>
-                                <action selector="addItem:" destination="cWb-0u-nVe" id="58f-0r-JWe"/>
+                                <action selector="addItem:" destination="cWb-0u-nVe" id="AmF-be-qRX"/>
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
@@ -107,7 +133,7 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                     <connections>
-                                                        <action selector="titleChanged:" destination="GIO-Fk-2bj" eventType="editingChanged" id="iNO-2k-daL"/>
+                                                        <action selector="titleChanged:" destination="GIO-Fk-2bj" eventType="editingChanged" id="L50-BE-Gq5"/>
                                                         <outlet property="delegate" destination="GIO-Fk-2bj" id="1tL-jo-cta"/>
                                                     </connections>
                                                 </textField>
@@ -391,6 +417,14 @@
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="4TZ-gA-bPA">
                         <rect key="frame" x="0.0" y="813" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <toolbarAppearance key="standardAppearance">
+                            <barButtonItemAppearance key="buttonAppearance">
+                                <barButtonItemStateAppearance key="normal"/>
+                                <barButtonItemStateAppearance key="highlighted"/>
+                                <barButtonItemStateAppearance key="disabled"/>
+                                <barButtonItemStateAppearance key="focused"/>
+                            </barButtonItemAppearance>
+                        </toolbarAppearance>
                     </toolbar>
                     <connections>
                         <segue destination="cWb-0u-nVe" kind="relationship" relationship="rootViewController" id="sFS-HR-ljg"/>
@@ -421,12 +455,19 @@
     </scenes>
     <resources>
         <image name="circle" catalog="system" width="128" height="121"/>
+        <image name="flag.fill" catalog="system" width="128" height="121"/>
         <image name="plus.circle" catalog="system" width="128" height="121"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemBlueColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemOrangeColor">
+            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

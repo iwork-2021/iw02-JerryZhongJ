@@ -95,7 +95,7 @@ class DetailTableController: UITableViewController {
         setDate = item.setDate
         setTime = item.setTime
         
-        
+        flagSwitch.isOn = item.flag
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -249,9 +249,6 @@ class DetailTableController: UITableViewController {
         item.flag = sender.isOn
     }
     
-    @objc func endEditing(){
-        view.endEditing(true)
-    }
     
     /*
     // Override to support conditional editing of the table view.
@@ -298,7 +295,6 @@ class DetailTableController: UITableViewController {
     }
     */
 
-    
 }
 
 extension DetailTableController: UITextFieldDelegate {
@@ -307,6 +303,7 @@ extension DetailTableController: UITextFieldDelegate {
         switch(textField.tag){
         case 0:
             item.title = text
+            
             
         case 1:
             item.note = text
